@@ -4,6 +4,7 @@ import ArticleList from "../components/ArticleList"
 import Pagination from "../components/Pagination"
 import { useEffect, useState } from "react"
 import { getArticles } from "../services/api"
+import Loading from "../components/Loading"
 
 
 export default function Home(){
@@ -39,7 +40,7 @@ export default function Home(){
             <div className="home-container">
                 <SideTagbar/>
 
-                {loading && <p className="status-text">Loading...</p>}
+                {loading && <Loading/>}
                 {error && <p className="status-text">{error}</p>}
 
                 {!loading && !error && <ArticleList articles={articles}/>}
@@ -50,6 +51,7 @@ export default function Home(){
                         onPageChange={setPage}
                     />
                 )}
+                
             </div>
         </div>
     )

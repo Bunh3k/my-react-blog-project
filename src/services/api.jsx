@@ -20,3 +20,22 @@ export async function getArticle(slug){
 
     return res.json()
 }
+
+export async function loginUser({email, password}){
+    const res = await fetch(`${BASE_URL}/users/login`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            user: {email, password}
+        })
+    })
+
+    const data = res.json()
+
+    if(!res.ok){
+        throw new Error("Username or password is wrong")
+    }
+    return data
+}

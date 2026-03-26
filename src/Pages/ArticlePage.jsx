@@ -4,6 +4,7 @@ import { getArticle } from "../services/api";
 import { ArticleBanner } from "../components/Banner";
 import UserInfo from "../components/UserInfo";
 import ReactMarkdown from 'react-markdown';
+import Loading from "../components/Loading";
 
 export default function ArticlePage(){
     const { slug } = useParams()
@@ -30,7 +31,7 @@ export default function ArticlePage(){
     return(
         <div className="article-page">
 
-            {loading && <p className="status-text">Loading...</p>}
+            {loading && <Loading/>}
             {error && <p className="status-text">{error}</p>}
 
             {!loading && article && (

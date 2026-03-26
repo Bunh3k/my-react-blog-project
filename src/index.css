@@ -287,3 +287,76 @@ header nav a:hover {
     font-size: 12.8px;
     font-weight: 400;
 }
+
+/* loading */
+.spinner {
+    animation: spin 1s linear infinite;
+    font-size: 30px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color: #61BB61;
+}
+
+/* sign in page */
+.sign-in-page {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 20px;
+}
+
+.sign-in-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sign-in-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sign-in-page form input {
+    padding: 12px;
+    border: 1px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.sign-in-page form button {
+    align-self: flex-end;
+    width: 120px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #61BB61;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sign-in-page form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}

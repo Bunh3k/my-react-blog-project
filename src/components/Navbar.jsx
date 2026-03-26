@@ -7,7 +7,7 @@ export default function Navbar(){
                 <nav>
                     <h2>Realworld Blog</h2>
                     <Link to='/'>Home</Link>
-                    <Link>Sign In</Link>
+                    <Link to='sign-in'>Sign In</Link>
                     <Link>Sign Up</Link>
                 </nav>
             </header>

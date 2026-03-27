@@ -314,32 +314,37 @@ header nav a:hover {
     color: #61BB61;
 }
 
-/* sign in page */
-.sign-in-page {
+/* sign in page, sign up page*/
+.sign-in-page,
+.sign-up-page {
     max-width: 500px;
     margin: 80px auto;
     padding: 20px;
 }
 
-.sign-in-page h1 {
+.sign-in-page h1,
+.sign-up-page h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.sign-in-page form {
+.sign-in-page form,
+.sign-up-page form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.sign-in-page form input {
+.sign-in-page form input,
+.sign-up-page form input {
     padding: 12px;
     border: 1px solid #AAAAAA;
     border-radius: 6px;
     font-size: 16px;
 }
 
-.sign-in-page form button {
+.sign-in-page form button,
+.sign-up-page form button {
     align-self: flex-end;
     width: 120px;
     padding: 12px;
@@ -356,7 +361,20 @@ header nav a:hover {
     cursor: not-allowed;
 }
 
+.sign-up-page form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .error {
     color: red;
+    font-size: 14px;
+    margin: 0;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 14px;
 }

@@ -8,7 +8,7 @@ export default function Navbar(){
                     <h2>Realworld Blog</h2>
                     <Link to='/'>Home</Link>
                     <Link to='sign-in'>Sign In</Link>
-                    <Link>Sign Up</Link>
+                    <Link to='sign-up'>Sign Up</Link>
                 </nav>
             </header>
         </div>

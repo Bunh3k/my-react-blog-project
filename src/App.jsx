@@ -15,6 +15,7 @@ import RootLayout from './Layout/RootLayout'
 import Home from './Pages/Home'
 import ArticlePage from './Pages/ArticlePage'
 import SignInPage from './Pages/SignInPage'
+import SignUpPage from './Pages/SignUpPage'
 
 
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route index element={<Home/>}/>
       <Route path='articles/:slug' element={<ArticlePage/>}/>
       <Route path='sign-in' element={<SignInPage/>}/>
+      <Route path='sign-up' element={<SignUpPage/>}/>
     </Route>
   )
 ) 

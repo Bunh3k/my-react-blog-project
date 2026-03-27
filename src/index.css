@@ -32,14 +32,18 @@ header nav h2 {
 
 header nav a {
     text-decoration: none;
-    padding: 6px;
+    padding: 3px;
     color: #333;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }
 
 header nav a:hover {
     color: #61BB61;
 }
+
 
 /* banner */
 .banner {

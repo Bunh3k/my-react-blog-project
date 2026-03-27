@@ -29,6 +29,7 @@ export default function SignUpPage() {
       localStorage.setItem("user", JSON.stringify(result.user));
 
       navigate("/");
+      window.location.reload();
     } catch (error) {
       const apiError = error?.errors;
       if (apiError) {

@@ -124,3 +124,54 @@ export async function getFeedArticles(limit = 3, offset = 0) {
   if (!res.ok) throw new Error("Failed to fetch feed");
   return res.json();
 }
+
+export async function createArticle(token, articleData) {
+  const res = await fetch(`${BASE_URL}/articles`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify({
+      article: articleData,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) throw data;
+
+  return data;
+}
+
+export async function updateArticle(token, slug, articleData) {
+  const res = await fetch(`${BASE_URL}/articles/${slug}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify({
+      article: articleData,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) throw data;
+
+  return data;
+}
+
+export async function deleteArticle(token, slug) {
+  const res = await fetch(`${BASE_URL}/articles/${slug}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete");
+  }
+}

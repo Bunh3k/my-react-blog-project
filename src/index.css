@@ -14,6 +14,19 @@ p {
     margin: 10px 0;
 }
 
+button {
+    align-self: flex-end;
+    width: auto;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #61BB61;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Source Sans 3";
+}
+
 
 /* navbar */
 header nav {
@@ -182,6 +195,29 @@ header nav a:hover {
     width: 77px;
 }
 
+.article-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.article-actions button {
+    width: 80px;
+    padding: 5px;
+}
+
+.article-actions button:last-child {
+    background-color: transparent;
+    color: #BB6161;
+    border: 1px solid #BB6161;
+    border-radius: 6px;
+    font-size: 12.8px;
+    cursor: pointer;
+}
+
+
 /* post content */
 .post-header {
     font-size: 32px;
@@ -273,7 +309,7 @@ header nav a:hover {
 .article-banner-body {
     display: flex;
     flex-direction: column;
-    width: 760px;
+    max-width: 760px;
     margin: 25px auto;
 }
 
@@ -332,10 +368,12 @@ header nav a:hover {
     color: #61BB61;
 }
 
-/* sign in page, sign up page, setting page*/
+/* sign-in page, sign-up page, setting page, new-article page*/
 .sign-in-page,
 .sign-up-page,
-.settings-page {
+.settings-page,
+.new-article-page,
+.edit-article-page {
     max-width: 500px;
     margin: 80px auto;
     padding: 20px;
@@ -343,7 +381,9 @@ header nav a:hover {
 
 .sign-in-page h1,
 .sign-up-page h1,
-.settings-page h1 {
+.settings-page h1,
+.new-article-page h1,
+.edit-article-page h1 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 36px;
@@ -351,7 +391,9 @@ header nav a:hover {
 
 .sign-in-page form,
 .sign-up-page form,
-.settings-page form {
+.settings-page form,
+.new-article-page form,
+.edit-article-page form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -359,14 +401,18 @@ header nav a:hover {
 
 .sign-in-page form input,
 .sign-up-page form input,
-.settings-page form input {
+.settings-page form input,
+.new-article-page form input,
+.edit-article-page form input {
     padding: 12px;
     border: 1px solid #AAAAAA;
     border-radius: 6px;
     font-size: 16px;
 }
 
-.settings-page textarea {
+.settings-page textarea,
+.new-article-page textarea,
+.edit-article-page textarea {
     resize: vertical;
     max-height: 200px;
     height: 100px;
@@ -380,7 +426,9 @@ header nav a:hover {
 
 .sign-in-page form button,
 .sign-up-page form button,
-.settings-page form button {
+.settings-page form button,
+.new-article-page form button,
+.edit-article-page form button {
     align-self: flex-end;
     width: 120px;
     padding: 12px;
@@ -392,17 +440,20 @@ header nav a:hover {
     cursor: pointer;
 }
 
-.settings-page form button {
+.settings-page form button,
+.new-article-page form button,
+.edit-article-page form button {
     width: auto;
 }
 
 .sign-in-page form button:disabled,
 .sign-up-page form button:disabled,
-.settings-page form button:disabled {
+.settings-page form button:disabled,
+.new-article-page form button:disabled,
+.edit-article-page form button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
-
 
 .error {
     color: red;
@@ -467,6 +518,8 @@ header nav a:hover {
     padding: 10px;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 0;
+    color: #333;
 }
 
 .profile-tabs .active {

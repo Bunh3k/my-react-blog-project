@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getArticle } from "../services/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteArticle, getArticle } from "../services/api";
 import { ArticleBanner } from "../components/Banner";
 import UserInfo from "../components/UserInfo";
 import ReactMarkdown from "react-markdown";
@@ -11,6 +11,11 @@ export default function ArticlePage() {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const isAuthor = currentUser?.username === article?.author?.username;
 
   async function fetchArticle() {
     try {
@@ -28,6 +33,22 @@ export default function ArticlePage() {
   useEffect(() => {
     fetchArticle();
   }, [slug]);
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("Are you sure?");
+
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await deleteArticle(token, article.slug);
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="article-page">
@@ -52,6 +73,18 @@ export default function ArticlePage() {
               <UserInfo article={article} />
               <button className="favorite-article">Favorite article</button>
             </div>
+
+            {isAuthor && (
+              <div className="article-actions">
+                <button
+                  onClick={() => navigate(`/articles/${article.slug}/edit`)}
+                >
+                  Edit
+                </button>
+
+                <button onClick={handleDelete}>Delete</button>
+              </div>
+            )}
           </div>
         </>
       )}

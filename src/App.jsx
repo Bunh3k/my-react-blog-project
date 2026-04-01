@@ -18,6 +18,8 @@ import SignInPage from "./Pages/SignInPage";
 import SignUpPage from "./Pages/SignUpPage";
 import SettingsPage from "./Pages/SettingsPage";
 import ProfilePage from "./Pages/ProfilePage";
+import NewArticlePlage from "./Pages/NewArticlePage";
+import EditArticlePage from "./Pages/EditArticlePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +30,8 @@ const router = createBrowserRouter(
       <Route path="sign-up" element={<SignUpPage />} />
       <Route path="settings" element={<SettingsPage />} />
       <Route path="profile/:username" element={<ProfilePage />} />
+      <Route path="new-article" element={<NewArticlePlage />} />
+      <Route path="articles/:slug/edit" element={<EditArticlePage />} />
     </Route>,
   ),
 );

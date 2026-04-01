@@ -21,7 +21,7 @@ export default function Navbar() {
 
           {user && (
             <>
-              <Link to="new-post">
+              <Link to="new-article">
                 <RiPencilFill style={{ color: "#61BB61" }} /> New Post
               </Link>
               <Link to="settings">

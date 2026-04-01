@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { RiPencilFill } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
+import { FaUser } from "react-icons/fa6";
 
 export default function Navbar() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
   return (
     <div className="navbar">
@@ -20,14 +21,17 @@ export default function Navbar() {
 
           {user && (
             <>
-              <Link to="">
+              <Link to="new-post">
                 <RiPencilFill style={{ color: "#61BB61" }} /> New Post
               </Link>
-              <Link to="setting">
+              <Link to="settings">
                 <IoMdSettings style={{ color: "#61BB61" }} />
-                Setting
+                Settings
               </Link>
-              <Link to="">Profile</Link>
+              <Link to={`profile/${user.username}`}>
+                <FaUser style={{ color: "#61BB61" }} />
+                {user.username}
+              </Link>
             </>
           )}
         </nav>

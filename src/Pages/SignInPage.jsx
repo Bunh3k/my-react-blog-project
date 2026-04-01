@@ -39,11 +39,11 @@ export default function SingInPage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="email"
-          placeholder="Username"
+          placeholder="Email"
           {...register("email", {
             required: "Email is required",
             pattern: {
-              value: "/^\S+@\S+\.\S+$/",
+              value: /^\S+@\S+\.\S+$/,
               message: "Enter a valid email",
             },
           })}

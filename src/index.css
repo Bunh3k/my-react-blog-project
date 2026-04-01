@@ -23,6 +23,7 @@ header nav {
     margin: 0 auto;
     padding: 10px;
     gap: 16px;
+    border-bottom: 1px solid #E5E5E5;
 }
 
 header nav h2 {
@@ -37,7 +38,9 @@ header nav a {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
+    font-weight: 400;
+    font-family: "Source Sans 3";
 }
 
 header nav a:hover {
@@ -135,6 +138,17 @@ header nav a:hover {
     align-items: center;
     gap: 10px;
     font-family: "Source Sans 3";
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-icon {
+    color: #61bb61;
 }
 
 .user-description {
@@ -318,37 +332,55 @@ header nav a:hover {
     color: #61BB61;
 }
 
-/* sign in page, sign up page*/
+/* sign in page, sign up page, setting page*/
 .sign-in-page,
-.sign-up-page {
+.sign-up-page,
+.settings-page {
     max-width: 500px;
     margin: 80px auto;
     padding: 20px;
 }
 
 .sign-in-page h1,
-.sign-up-page h1 {
+.sign-up-page h1,
+.settings-page h1 {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 36px;
 }
 
 .sign-in-page form,
-.sign-up-page form {
+.sign-up-page form,
+.settings-page form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 .sign-in-page form input,
-.sign-up-page form input {
+.sign-up-page form input,
+.settings-page form input {
     padding: 12px;
     border: 1px solid #AAAAAA;
     border-radius: 6px;
     font-size: 16px;
 }
 
+.settings-page textarea {
+    resize: vertical;
+    max-height: 200px;
+    height: 100px;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: "Source Sans 3";
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid #AAAAAA;
+}
+
 .sign-in-page form button,
-.sign-up-page form button {
+.sign-up-page form button,
+.settings-page form button {
     align-self: flex-end;
     width: 120px;
     padding: 12px;
@@ -356,19 +388,21 @@ header nav a:hover {
     border-radius: 6px;
     background: #61BB61;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
 }
 
-.sign-in-page form button:disabled {
+.settings-page form button {
+    width: auto;
+}
+
+.sign-in-page form button:disabled,
+.sign-up-page form button:disabled,
+.settings-page form button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.sign-up-page form button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
 
 .error {
     color: red;
@@ -381,4 +415,62 @@ header nav a:hover {
     align-items: center;
     gap: 10px;
     font-size: 14px;
+}
+
+.settings-page .logout-btn {
+    background-color: transparent;
+    align-self: flex-start;
+    color: #BB6161;
+    border: 1px solid #BB6161;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 12.8px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* profile page */
+.profile-banner {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.profile-avatar {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-username {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.profile-content {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.profile-tabs {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.profile-tabs button {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-tabs .active {
+    border-bottom: 2px solid #61BB61;
+    color: #61BB61;
+    font-weight: 600;
 }

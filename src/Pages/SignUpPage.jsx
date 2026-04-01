@@ -83,7 +83,7 @@ export default function SignUpPage() {
           {...register("email", {
             required: "Email is required",
             pattern: {
-              value: /^\S+@\S+.\S+$/,
+              value: /^\S+@\S+\.\S+$/,
               message: "Enter a valid email",
             },
           })}
@@ -130,6 +130,8 @@ export default function SignUpPage() {
           <span>I agree to the processing of my personal data</span>
         </label>
         {errors.agree && <p className="error">{errors.agree.message}</p>}
+
+        {serverError && <p className="error">{serverError}</p>}
 
         <button type="submit" disabled={loading}>
           {loading ? "Signing up..." : "Sign up"}

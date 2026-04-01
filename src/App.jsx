@@ -16,7 +16,8 @@ import Home from "./Pages/Home";
 import ArticlePage from "./Pages/ArticlePage";
 import SignInPage from "./Pages/SignInPage";
 import SignUpPage from "./Pages/SignUpPage";
-import SettingPage from "./Pages/SettingPage";
+import SettingsPage from "./Pages/SettingsPage";
+import ProfilePage from "./Pages/ProfilePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +26,8 @@ const router = createBrowserRouter(
       <Route path="articles/:slug" element={<ArticlePage />} />
       <Route path="sign-in" element={<SignInPage />} />
       <Route path="sign-up" element={<SignUpPage />} />
-      <Route path="setting" element={<SettingPage />} />
+      <Route path="settings" element={<SettingsPage />} />
+      <Route path="profile/:username" element={<ProfilePage />} />
     </Route>,
   ),
 );

@@ -1,7 +1,7 @@
-import { useForm } from "react-hook-form";
-import { getCurrentUser, updateUser } from "../services/api";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form';
+import { getCurrentUser, updateUser } from '../services/api';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SettingsPage() {
   const {
@@ -11,11 +11,11 @@ export default function SettingsPage() {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm({ mode: "onSubmit" });
+  } = useForm({ mode: 'onSubmit' });
   const navigate = useNavigate();
 
   const fetchUser = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (!token) return;
 
@@ -23,10 +23,10 @@ export default function SettingsPage() {
       const data = await getCurrentUser(token);
       const user = data.user;
 
-      setValue("username", user.username);
-      setValue("email", user.email);
-      setValue("bio", user.bio || "");
-      setValue("image", user.image || "");
+      setValue('username', user.username);
+      setValue('email', user.email);
+      setValue('bio', user.bio || '');
+      setValue('image', user.image || '');
     } catch (err) {
       console.error(err);
     }
@@ -38,7 +38,7 @@ export default function SettingsPage() {
 
   const onSubmit = async (formData) => {
     clearErrors();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const userData = {
       username: formData.username,
@@ -52,9 +52,10 @@ export default function SettingsPage() {
     try {
       const res = await updateUser(token, userData);
 
-      localStorage.setItem("user", JSON.stringify(res.user));
+      localStorage.setItem('user', JSON.stringify(res.user));
 
-      alert("Profile updated!");
+      alert('Profile updated!');
+      navigate('/');
       window.location.reload();
     } catch (error) {
       const apiErrors = error?.errors;
@@ -64,29 +65,29 @@ export default function SettingsPage() {
       Object.entries(apiErrors).forEach(([field, messages]) => {
         let message = Array.isArray(messages) ? messages[0] : String(messages);
 
-        if (message.includes("username")) {
-          message = "Username already taken";
+        if (message.includes('username')) {
+          message = 'Username already taken';
         }
 
-        if (field === "body") {
-          setError("username", { type: "server", message });
+        if (field === 'body') {
+          setError('username', { type: 'server', message });
         }
 
-        if (field === "email") {
-          setError("email", { type: "server", message });
+        if (field === 'email') {
+          setError('email', { type: 'server', message });
         }
 
-        if (field === "password") {
-          setError("password", { type: "server", message });
+        if (field === 'password') {
+          setError('password', { type: 'server', message });
         }
       });
     }
   };
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/');
     window.location.reload();
   };
 
@@ -97,9 +98,9 @@ export default function SettingsPage() {
         {/* Username */}
         <input
           placeholder="Username"
-          {...register("username", {
-            required: "Username is required",
-            onChange: () => clearErrors("username"),
+          {...register('username', {
+            required: 'Username is required',
+            onChange: () => clearErrors('username'),
           })}
         />
         {errors.username && <p className="error">{errors.username?.message}</p>}
@@ -107,13 +108,13 @@ export default function SettingsPage() {
         {/* Email */}
         <input
           placeholder="Email"
-          {...register("email", {
-            required: "Email is required",
+          {...register('email', {
+            required: 'Email is required',
             pattern: {
               value: /^\S+@\S+\.\S+$/,
-              message: "Invalid email",
+              message: 'Invalid email',
             },
-            onChange: () => clearErrors("email"),
+            onChange: () => clearErrors('email'),
           })}
         />
         {errors.email && <p className="error">{errors.email?.message}</p>}
@@ -121,20 +122,20 @@ export default function SettingsPage() {
         {/* Bio */}
         <textarea
           placeholder="Bio"
-          {...register("bio", {
-            onChange: () => clearErrors("bio"),
+          {...register('bio', {
+            onChange: () => clearErrors('bio'),
           })}
         />
 
         {/* Image */}
         <input
           placeholder="Image Avatar URL"
-          {...register("image", {
+          {...register('image', {
             pattern: {
               value: /^https?:\/\/.+$/,
-              message: "Invalid URL",
+              message: 'Invalid URL',
             },
-            onChange: () => clearErrors("image"),
+            onChange: () => clearErrors('image'),
           })}
         />
         {errors.image && <p className="error">{errors.image?.message}</p>}
@@ -143,16 +144,16 @@ export default function SettingsPage() {
         <input
           type="password"
           placeholder="New Password"
-          {...register("password", {
+          {...register('password', {
             minLength: {
               value: 6,
-              message: "Password must be at least 6 characters",
+              message: 'Password must be at least 6 characters',
             },
             maxLength: {
               value: 40,
-              message: "Password must be at most 40 characters",
+              message: 'Password must be at most 40 characters',
             },
-            onChange: () => clearErrors("password"),
+            onChange: () => clearErrors('password'),
           })}
         />
         {errors.password && <p className="error">{errors.password?.message}</p>}

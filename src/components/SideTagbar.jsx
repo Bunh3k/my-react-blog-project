@@ -1,13 +1,34 @@
+import { useEffect, useState } from "react"
+import { getTags } from "../services/api"
+
 export default function SideTagbar(){
+    const [tags, setTags] = useState([])
+    const [error, setError] = useState("")
+
+    async function fetchTags(){
+        try {
+            const data = await getTags();
+            
+            setTags(data.tags.slice(0, 5));
+        } catch (error) {
+            setError(error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchTags();
+    },[]);
+
     return(
         <div className="side-tagbar">
             <p>Popular tags</p>
+
+            {error && <p className="error">{error}</p>}
+
             <div className="tagbar">
-                <span className="tag-pills">one</span>
-                <span className="tag-pills">something</span>
-                <span className="tag-pills">chinese</span>
-                <span className="tag-pills">english</span>
-                <span className="tag-pills">french</span>
+                {tags.map((tag) => (
+                    <span className="tag-pills" key={tag}>{tag}</span>
+                ))}
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { createArticle } from "../services/api";
-import { useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { createArticle } from '../services/api';
+import { useEffect, useState } from 'react';
 
 export default function NewArticlePlage() {
   const {
@@ -10,21 +10,45 @@ export default function NewArticlePlage() {
     formState: { errors },
   } = useForm();
 
+  const [tagInput, setTagInput] = useState('');
+  const [tags, setTags] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (!token) {
-      navigate("sign-in");
+      navigate('sign-in');
     }
   }, []);
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+
+      const value = tagInput.trim();
+
+      if (!value) return;
+
+      if (tags.includes(value)) return;
+
+      setTags([...tags, value]);
+      setTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (indexToRemove) => {
+    setTags((prevTags) =>
+      prevTags.filter((_, index) => index !== indexToRemove),
+    );
+  };
+
   const onSubmit = async (data) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
-      const res = await createArticle(token, data);
+      const res = await createArticle(token, { ...data, tagList: tags });
       navigate(`/articles/${res.article.slug}`);
     } catch (error) {
       console.log(error);
@@ -37,16 +61,16 @@ export default function NewArticlePlage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           placeholder="Title"
-          {...register("title", {
-            required: "Title is required",
+          {...register('title', {
+            required: 'Title is required',
           })}
         />
         {errors.title && <p className="error">{errors.title.message}</p>}
 
         <input
           placeholder="Description"
-          {...register("description", {
-            required: "Description is required",
+          {...register('description', {
+            required: 'Description is required',
           })}
         />
         {errors.description && (
@@ -55,11 +79,29 @@ export default function NewArticlePlage() {
 
         <textarea
           placeholder="Input your text"
-          {...register("body", {
-            required: "Body is required",
+          {...register('body', {
+            required: 'Body is required',
           })}
         />
         {errors.body && <p className="error">{errors.body.message}</p>}
+
+        <input
+          placeholder="Enter tags and press Enter"
+          value={tagInput}
+          onChange={(e) => setTagInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+
+        <div className="tag-list">
+          {tags.map((tag) => (
+            <span className="tag-pill" key={tag}>
+              {tag}
+              <button type="button" onClick={() => handleRemoveTag(tag)}>
+                ❌
+              </button>
+            </span>
+          ))}
+        </div>
 
         <button type="submit">Publish Article</button>
       </form>

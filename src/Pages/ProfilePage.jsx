@@ -1,57 +1,120 @@
-import { useEffect, useState } from "react";
-import { getArticlesByAuthor, getFeedArticles } from "../services/api";
-import ArticleList from "../components/ArticleList";
-import Loading from "../components/Loading";
-import Pagination from "../components/Pagination";
-import SideTagbar from "../components/SideTagbar";
+import { useEffect, useState } from 'react';
+import {
+  followUser,
+  getArticlesByAuthor,
+  getFeedArticles,
+  getProfile,
+  unfollowUser,
+} from '../services/api';
+import ArticleList from '../components/ArticleList';
+import Loading from '../components/Loading';
+import Pagination from '../components/Pagination';
+import SideTagbar from '../components/SideTagbar';
+import { useParams } from 'react-router-dom';
+import { FaHeart } from 'react-icons/fa';
 
 export default function ProfilePage() {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const { username } = useParams();
 
-  const [activeTab, setActiveTab] = useState("feed");
+  const [activeTab, setActiveTab] = useState('feed');
 
   const [articles, setArticles] = useState([]);
   const [articlesCount, setArticlesCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const [page, setPage] = useState(1);
+  const [myPage, setMyPage] = useState(1);
+  const [feedPage, setFeedPage] = useState(1);
+
+  const [profile, setProfile] = useState(null);
+  const [following, setFollowing] = useState(false);
+
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const isOwnProfile = currentUser?.username === profile?.username;
 
   const limit = 3;
   const totalPages = Math.ceil(articlesCount / limit);
 
+  const currentPage = activeTab === 'feed' ? feedPage : myPage;
+
   const fetchArticles = async () => {
-    if (!user) return;
+    if (!username) return;
 
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
       let data;
-      const offset = (page - 1) * limit;
+      const offset = (currentPage - 1) * limit;
 
-      if (activeTab === "feed") {
+      if (isOwnProfile && activeTab === 'feed') {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          setArticles([]);
+          return;
+        }
+
         data = await getFeedArticles(limit, offset);
       } else {
-        data = await getArticlesByAuthor(user.username, limit, offset);
+        data = await getArticlesByAuthor(username, limit, offset);
       }
-
+      console.log('FEED ARTICLES:', data.articles);
       setArticles(data.articles);
       setArticlesCount(data.articlesCount);
+      console.log('COUNT:', articlesCount);
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    fetchArticles();
-  }, [user, activeTab, page]);
 
-  if (!user) return <Loading />;
+  const fetchProfile = async () => {
+    try {
+      const data = await getProfile(username);
+      setProfile(data.profile);
+      setFollowing(data.profile.following);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFollow = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      let res;
+
+      if (!following) {
+        res = await followUser(token, username);
+      } else {
+        res = await unfollowUser(token, username);
+      }
+
+      setFollowing(res.profile.following);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!profile) return;
+    fetchArticles();
+  }, [profile, activeTab, feedPage, myPage]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [username]);
+
+  useEffect(() => {
+    setActiveTab('feed');
+    setFeedPage(1);
+    setMyPage(1);
+  }, [username]);
+
+  if (!profile) return <Loading />;
 
   return (
     <div className="profile-page">
@@ -59,36 +122,51 @@ export default function ProfilePage() {
       <div className="profile-banner">
         <img
           className="profile-avatar"
-          src={user.image || "http://via.placeholder.com/100"}
+          src={profile?.image || 'http://via.placeholder.com/100'}
           alt="avatar"
         />
 
-        <h2 className="profile-username">{user.username}</h2>
+        <h2 className="profile-username">{profile?.username}</h2>
+
+        {!isOwnProfile && (
+          <button className="follow-btn" onClick={handleFollow}>
+            <FaHeart className="heart-icon" />
+            {following ? 'Unfollow' : 'Follow'}
+          </button>
+        )}
       </div>
 
       <div className="profile-content">
         <SideTagbar />
         {/* Tabs */}
         <div className="profile-tabs">
-          <button
-            className={activeTab === "feed" ? "active" : ""}
-            onClick={() => {
-              setActiveTab("feed");
-              setPage(1);
-            }}
-          >
-            My Feed
-          </button>
+          {!isOwnProfile && (
+            <button className="active">{profile.username}'s Articles</button>
+          )}
 
-          <button
-            className={activeTab === "my" ? "active" : ""}
-            onClick={() => {
-              setActiveTab("my");
-              setPage(1);
-            }}
-          >
-            My Articles
-          </button>
+          {isOwnProfile && (
+            <>
+              <button
+                className={activeTab === 'feed' ? 'active' : ''}
+                onClick={() => {
+                  setActiveTab('feed');
+                  setFeedPage(1);
+                }}
+              >
+                My Feed
+              </button>
+
+              <button
+                className={activeTab === 'my' ? 'active' : ''}
+                onClick={() => {
+                  setActiveTab('my');
+                  setMyPage(1);
+                }}
+              >
+                My Articles
+              </button>
+            </>
+          )}
         </div>
 
         {/* Articles */}
@@ -105,8 +183,8 @@ export default function ProfilePage() {
               <ArticleList articles={articles} />
               <Pagination
                 totalPages={totalPages}
-                currentPage={page}
-                onPageChange={setPage}
+                currentPage={currentPage}
+                onPageChange={activeTab === 'feed' ? setFeedPage : setMyPage}
               />
             </>
           )}

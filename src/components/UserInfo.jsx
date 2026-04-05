@@ -1,4 +1,5 @@
-import { FaUser } from "react-icons/fa6";
+import { FaUser } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 export default function UserInfo({ article }) {
   const avatar = article.author.image;
@@ -11,7 +12,9 @@ export default function UserInfo({ article }) {
         <FaUser className="user-icon" />
       )}
       <div className="user-description">
-        <span className="user-name">{article.author.username}</span>
+        <Link to={`/profile/${article.author.username}`} className="user-name">
+          {article.author.username}
+        </Link>
         <span className="user-date">
           {new Date(article.createdAt).toLocaleDateString()}
         </span>

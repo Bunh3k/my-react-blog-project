@@ -1,28 +1,41 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { deleteArticle, getArticle } from "../services/api";
-import { ArticleBanner } from "../components/Banner";
-import UserInfo from "../components/UserInfo";
-import ReactMarkdown from "react-markdown";
-import Loading from "../components/Loading";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  deleteArticle,
+  favoriteArticle,
+  getArticle,
+  unfavoriteArticle,
+} from '../services/api';
+import { ArticleBanner } from '../components/Banner';
+import UserInfo from '../components/UserInfo';
+import ReactMarkdown from 'react-markdown';
+import Loading from '../components/Loading';
+import { FaHeart } from 'react-icons/fa6';
 
 export default function ArticlePage() {
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
+
+  const [favorited, setFavorited] = useState(false);
+  const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
 
-  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const currentUser = JSON.parse(localStorage.getItem('user'));
   const isAuthor = currentUser?.username === article?.author?.username;
 
   async function fetchArticle() {
     try {
       setLoading(true);
-      setError("");
+      setError('');
+
       const data = await getArticle(slug);
+
       setArticle(data.article);
+      setFavorited(data.article.favorited);
+      setCount(data.article.favoritesCount);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -34,17 +47,37 @@ export default function ArticlePage() {
     fetchArticle();
   }, [slug]);
 
+  const handleFavorite = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      let res;
+
+      if (favorited === false) {
+        res = await favoriteArticle(token, article.slug);
+      } else {
+        res = await unfavoriteArticle(token, article.slug);
+      }
+
+      setFavorited(res.article.favorited);
+      setCount(res.article.favoritesCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleDelete = async () => {
-    const confirmDelete = window.confirm("Are you sure?");
+    const confirmDelete = window.confirm('Are you sure?');
 
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       await deleteArticle(token, article.slug);
 
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +104,12 @@ export default function ArticlePage() {
             </div>
             <div className="banner-footer">
               <UserInfo article={article} />
-              <button className="favorite-article">Favorite article</button>
+              <button
+                className={`heart ${favorited ? 'favorited' : ''}`}
+                onClick={handleFavorite}
+              >
+                <FaHeart /> {count}
+              </button>
             </div>
 
             {isAuthor && (

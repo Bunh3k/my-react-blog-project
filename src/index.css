@@ -173,6 +173,7 @@ header nav a:hover {
 .user-name {
     font-weight: 600;
     color: #61BB61;
+    text-decoration: none;
 }
 
 .user-date {
@@ -195,6 +196,12 @@ header nav a:hover {
     width: 77px;
 }
 
+.heart.favorited {
+    border: 1px solid #BB6161;
+    color: #BB6161;
+    background: #FFFFFF;
+}
+
 .article-actions {
     width: 100%;
     display: flex;
@@ -209,8 +216,8 @@ header nav a:hover {
 }
 
 .article-actions button:last-child {
-    background-color: transparent;
-    color: #BB6161;
+    background-color: #BB6161;
+    color: #FFFFFF;
     border: 1px solid #BB6161;
     border-radius: 6px;
     font-size: 12.8px;
@@ -332,15 +339,22 @@ header nav a:hover {
 }
 
 .banner-footer button {
-    background-color: #61BB61;
+    background-color: transparent;
     border: 1px solid #61BB61;
-    color: #fff;
+    color: #61BB61;
     padding: 8px 16px;
     border-radius: 8px;
     font-family: "Source Sans 3";
     font-size: 12.8px;
     font-weight: 400;
 }
+
+.favorite-article.favorited {
+    background: #BB6161;
+    color: #FFFFFF;
+    border: 1px solid #BB6161;
+}
+
 
 /* loading */
 .spinner {
@@ -455,6 +469,29 @@ header nav a:hover {
     cursor: not-allowed;
 }
 
+.tag-list {
+    margin-top: 10px;
+}
+
+.tag-pill {
+    display: inline-flex;
+    gap: 10px;
+    padding: 5px 10px;
+    margin: 4px;
+    border: 1px solid #ccc;
+    border-radius: 20px
+}
+
+.new-article-page .tag-pill button,
+.edit-article-page .tag-pill button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 0;
+    align-self: center;
+}
+
 .error {
     color: red;
     font-size: 14px;
@@ -493,11 +530,30 @@ header nav a:hover {
     height: 132px;
     border-radius: 50%;
     margin-bottom: 10px;
+    object-fit: cover;
 }
 
 .profile-username {
     font-size: 32px;
     font-weight: 600;
+}
+
+.follow-btn {
+    background: transparent;
+    border: 1px solid #61BB61;
+    color: #61BB61;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    gap: 8px;
+}
+
+.heart-icon {
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    padding: 3px;
+    font-size: 13px;
 }
 
 .profile-content {

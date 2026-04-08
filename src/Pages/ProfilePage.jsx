@@ -59,10 +59,9 @@ export default function ProfilePage() {
       } else {
         data = await getArticlesByAuthor(username, limit, offset);
       }
-      console.log('FEED ARTICLES:', data.articles);
+
       setArticles(data.articles);
       setArticlesCount(data.articlesCount);
-      console.log('COUNT:', articlesCount);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -71,19 +70,20 @@ export default function ProfilePage() {
   };
 
   const fetchProfile = async () => {
+    setError('');
     try {
       const data = await getProfile(username);
       setProfile(data.profile);
       setFollowing(data.profile.following);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to load profile';
     }
   };
 
   const handleFollow = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
-
+    setError('');
     try {
       let res;
 
@@ -95,7 +95,7 @@ export default function ProfilePage() {
 
       setFollowing(res.profile.following);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to update follow';
     }
   };
 
@@ -140,9 +140,7 @@ export default function ProfilePage() {
         <SideTagbar />
         {/* Tabs */}
         <div className="profile-tabs">
-          {!isOwnProfile && (
-            <button className="active">{profile.username}'s Articles</button>
-          )}
+          {!isOwnProfile && <button>{`${profile.username}'s Articles`}</button>}
 
           {isOwnProfile && (
             <>

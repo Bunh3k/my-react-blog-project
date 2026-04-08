@@ -3,23 +3,23 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 //style
-import "./index.css";
+import './index.css';
 
 //layout
-import RootLayout from "./Layout/RootLayout";
+import RootLayout from './Layout/RootLayout';
 
 //pages
-import Home from "./Pages/Home";
-import ArticlePage from "./Pages/ArticlePage";
-import SignInPage from "./Pages/SignInPage";
-import SignUpPage from "./Pages/SignUpPage";
-import SettingsPage from "./Pages/SettingsPage";
-import ProfilePage from "./Pages/ProfilePage";
-import NewArticlePlage from "./Pages/NewArticlePage";
-import EditArticlePage from "./Pages/EditArticlePage";
+import Home from './Pages/Home';
+import ArticlePage from './Pages/ArticlePage';
+import SignInPage from './Pages/SignInPage';
+import SignUpPage from './Pages/SignUpPage';
+import SettingsPage from './Pages/SettingsPage';
+import ProfilePage from './Pages/ProfilePage';
+import NewArticlePlage from './Pages/NewArticlePage';
+import EditArticlePage from './Pages/EditArticlePage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

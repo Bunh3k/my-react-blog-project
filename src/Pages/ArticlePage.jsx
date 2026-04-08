@@ -50,7 +50,7 @@ export default function ArticlePage() {
   const handleFavorite = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
-
+    setError('');
     try {
       let res;
 
@@ -63,7 +63,7 @@ export default function ArticlePage() {
       setFavorited(res.article.favorited);
       setCount(res.article.favoritesCount);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to update favorite';
     }
   };
 
@@ -71,7 +71,7 @@ export default function ArticlePage() {
     const confirmDelete = window.confirm('Are you sure?');
 
     if (!confirmDelete) return;
-
+    setError('');
     try {
       const token = localStorage.getItem('token');
 
@@ -79,7 +79,7 @@ export default function ArticlePage() {
 
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to delete article';
     }
   };
 

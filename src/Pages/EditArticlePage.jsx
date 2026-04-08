@@ -11,6 +11,8 @@ export default function EditArticlePage() {
     formState: { errors },
   } = useForm();
 
+  const [error, setError] = useState('');
+
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -18,6 +20,7 @@ export default function EditArticlePage() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setError('');
     try {
       const token = localStorage.getItem('token');
 
@@ -27,7 +30,7 @@ export default function EditArticlePage() {
 
       navigate(`/articles/${res.article.slug}`);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to update article';
     }
   };
 
@@ -58,14 +61,19 @@ export default function EditArticlePage() {
 
   useEffect(() => {
     async function loadArticle() {
-      const data = await getArticle(slug);
-      const article = data.article;
+      setError('');
+      try {
+        const data = await getArticle(slug);
+        const article = data.article;
 
-      setValue('title', article.title);
-      setValue('description', article.description);
-      setValue('body', article.body);
+        setValue('title', article.title);
+        setValue('description', article.description);
+        setValue('body', article.body);
 
-      setTags(article.tagList || []);
+        setTags(article.tagList || []);
+      } catch (error) {
+        setError(error.message) || 'Failed to load article';
+      }
     }
 
     loadArticle();
@@ -74,6 +82,7 @@ export default function EditArticlePage() {
   return (
     <div className="edit-article-page">
       <h1>Edit Article</h1>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           placeholder="Title"

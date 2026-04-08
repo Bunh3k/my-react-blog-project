@@ -10,6 +10,8 @@ export default function NewArticlePlage() {
     formState: { errors },
   } = useForm();
 
+  const [error, setError] = useState('');
+
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -45,19 +47,21 @@ export default function NewArticlePlage() {
   };
 
   const onSubmit = async (data) => {
+    setError('');
     try {
       const token = localStorage.getItem('token');
 
       const res = await createArticle(token, { ...data, tagList: tags });
       navigate(`/articles/${res.article.slug}`);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to create article';
     }
   };
 
   return (
     <div className="new-article-page">
       <h1>Create New Article</h1>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           placeholder="Title"

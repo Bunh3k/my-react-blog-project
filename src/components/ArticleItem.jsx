@@ -7,11 +7,12 @@ import { favoriteArticle, unfavoriteArticle } from '../services/api';
 export default function ArticleItem({ article }) {
   const [favorited, setFavorited] = useState(article.favorited);
   const [count, setCount] = useState(article.favoritesCount);
+  const [error, setError] = useState('');
 
   const handleFavorite = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
-
+    setError('');
     try {
       let res;
 
@@ -24,12 +25,13 @@ export default function ArticleItem({ article }) {
       setFavorited(res.article.favorited);
       setCount(res.article.favoritesCount);
     } catch (error) {
-      console.log(error);
+      setError(error.message) || 'Failed to update favorite';
     }
   };
 
   return (
     <div className="article-item">
+      {error && <p className="error">{error}</p>}
       <div className="post-heading">
         <UserInfo article={article} />
         <button

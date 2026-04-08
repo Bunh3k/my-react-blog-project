@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { getCurrentUser, updateUser } from '../services/api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SettingsPage() {
@@ -12,27 +12,29 @@ export default function SettingsPage() {
     clearErrors,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' });
+
+  const [error, setErrorState] = useState('');
+
   const navigate = useNavigate();
 
-  const fetchUser = async () => {
-    const token = localStorage.getItem('token');
-
-    if (!token) return;
-
-    try {
-      const data = await getCurrentUser(token);
-      const user = data.user;
-
-      setValue('username', user.username);
-      setValue('email', user.email);
-      setValue('bio', user.bio || '');
-      setValue('image', user.image || '');
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) return;
+      setError('');
+      try {
+        const data = await getCurrentUser(token);
+        const user = data.user;
+
+        setValue('username', user.username);
+        setValue('email', user.email);
+        setValue('bio', user.bio || '');
+        setValue('image', user.image || '');
+      } catch (error) {
+        setErrorState(error) || 'Failed to load user';
+      }
+    };
     fetchUser();
   }, []);
 
@@ -94,6 +96,7 @@ export default function SettingsPage() {
   return (
     <div className="settings-page">
       <h1>Your Settings</h1>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Username */}
         <input
